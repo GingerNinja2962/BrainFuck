@@ -1,46 +1,47 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void ft_putchar(char c)
+void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
-void ft_brackets(char *argv, int *i)
+void	f_brackets(char *argv, int *i)
 {
 	int c;
 
 	c = 1;
-	if (argv[*i] == '[')
+	while (c > 0)
 	{
-		while (c > 0)
-		{
-			*i = (*i + 1);
-			if (argv[*i] == '[')
-				c++;
-			if (argv[*i] == ']')
-				c--;
-		}
-	}
-	if (argv[*i] ==']')
-	{
-		while (c > 0)
-		{
-			*i = (*i - 1);
-			if (argv[*i] == ']')
-				c++;
-			if (argv[*i] == '[')
-				c--;
-		}
+		*i = (*i + 1);
+		if (argv[*i] == '[')
+			c++;
+		if (argv[*i] == ']')
+			c--;
 	}
 }
 
-void ft_execute(int *array, int *j, char *argv, int *i)
+void	b_brackets(char *argv, int *i)
+{
+	int c;
+
+	c = 1;
+	while (c > 0)
+	{
+		*i = (*i - 1);
+		if (argv[*i] == ']')
+			c++;
+		if (argv[*i] == '[')
+			c--;
+	}
+}
+
+void	ft_execute(int *array, int *j, char *argv, int *i)
 {
 	if (argv[*i] == '+')
 		array[*j] = (array[*j] + 1);
 	if (argv[*i] == '-')
-		array[*j] = (array[*j] + 1);
+		array[*j] = (array[*j] - 1);
 	if (argv[*i] == '>')
 		*j = (*j + 1);
 	if (argv[*i] == '<')
@@ -48,12 +49,12 @@ void ft_execute(int *array, int *j, char *argv, int *i)
 	if (argv[*i] == '.')
 		ft_putchar(array[*j]);
 	if (argv[*i] == '[' && array[*j] == 0)
-		brackets(argv, i);
+		f_brackets(argv, i);
 	if (argv[*i] == ']' && array[*j] != 0)
-		brackets(argv, i);
+		b_brackets(argv, i);
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	int i;
 	int *pi;
@@ -62,15 +63,18 @@ int main(int argc, char *argv[])
 	int *array;
 
 	i = 0;
-	pi = i;
+	pi = &i;
 	j = 0;
-	pj = j;
+	pj = &j;
 	array = malloc(sizeof(*array) * 2048);
 
 	if (argc == 2)
 	{
 		while (argv[1][i])
+		{
 			ft_execute(array, pj, argv[1], pi);
+			i++;
+		}
 	}
 	ft_putchar('\n');
 	return (0);
