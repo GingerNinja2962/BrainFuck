@@ -3,64 +3,75 @@
 
 void ft_putchar(char c)
 {
-    write(1, &c, 1);
+	write(1, &c, 1);
 }
 
-int ft_brackets(char *argv, int j, char c)
+void ft_brackets(char *argv, int *i)
 {
-    int i;
+	int c;
 
-    i = 1;
-    if (c == '[')
-    {
-        while (i > 0)
-        {
-            if (
-        }
-    }
-    if (c ==']')
-    {
-        while (i > 0)
-        {
-            
-        }
-    }
+	c = 1;
+	if (argv[*i] == '[')
+	{
+		while (c > 0)
+		{
+			*i = (*i + 1);
+			if (argv[*i] == '[')
+				c++;
+			if (argv[*i] == ']')
+				c--;
+		}
+	}
+	if (argv[*i] ==']')
+	{
+		while (c > 0)
+		{
+			*i = (*i - 1);
+			if (argv[*i] == ']')
+				c++;
+			if (argv[*i] == '[')
+				c--;
+		}
+	}
 }
 
-int ft_execute(int *array, char c, int j, char *argv)
+void ft_execute(int *array, int *j, char *argv, int *i)
 {
-    if (c == '+')
-        array[j] = (array[j] + 1);
-    if (c == '-')
-        array[j] = (array[j] + 1);
-    if (c == '>')
-        j++;
-    if (c == '<')
-        j--;
-    if (c == '.')
-        ft_putchar(array[j]);
-    if (c == '[' && array[j] == 0)
-        j = brackets(argv, c);
-    if (c == ']' && array[j] != 0)
-        j = brackets(argv, c);
-    return (j);
+	if (argv[*i] == '+')
+		array[*j] = (array[*j] + 1);
+	if (argv[*i] == '-')
+		array[*j] = (array[*j] + 1);
+	if (argv[*i] == '>')
+		*j = (*j + 1);
+	if (argv[*i] == '<')
+		*j = (*j - 1);
+	if (argv[*i] == '.')
+		ft_putchar(array[*j]);
+	if (argv[*i] == '[' && array[*j] == 0)
+		brackets(argv, i);
+	if (argv[*i] == ']' && array[*j] != 0)
+		brackets(argv, i);
 }
 
 int main(int argc, char *argv[])
 {
-    int i;
-    int j;
-    int *array;
+	int i;
+	int *pi;
+	int j;
+	int *pj;
+	int *array;
 
-    i = 0;
-    j = 0;
-    array = malloc(size of(*array) * 2048);
+	i = 0;
+	pi = i;
+	j = 0;
+	pj = j;
+	array = malloc(sizeof(*array) * 2048);
 
-    if (argc == 2)
-    {
-        while (argv[1][i])
-            j = ft_execute(array, argv[1], j, i);
-    }
-    ft_putchar('\n');
-    return (0);
+	if (argc == 2)
+	{
+		while (argv[1][i])
+			ft_execute(array, pj, argv[1], pi);
+	}
+	ft_putchar('\n');
+	return (0);
 }
